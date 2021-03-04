@@ -14,12 +14,12 @@ set echo
 set job_name       = F2010SC5-CMIP6_wP3_test
 set compset        = F2010SC5-CMIP6
 set resolution     = ne30pg2_r05_oECv3
-set machine        = compy
-set walltime       = 02:00:00
+set machine        = cori-knl
+set walltime       = 05:00:00
 setenv project       e3sm
 
 ### SOURCE CODE OPTIONS
-set fetch_code     = false
+set fetch_code     = true
 set e3sm_tag       = jacobshpundpnnl/atm/E3SMv2_alpha5_59_wP3v4
 set tag_name       = E3SM_alpha5_59_v2candidate_NGD_Conv
 
@@ -41,7 +41,7 @@ set submit_run       = true
 set debug_queue      = false
 
 ### PROCESSOR CONFIGURATION
-set processor_config = custom
+set processor_config = M
 
 ###Xue Zheng for nodes setting
 set nnodes = 30
@@ -51,8 +51,8 @@ set nnodes = 30
 set model_start_type = initial #initial #continue #branch
 
 ### DIRECTORIEs
-set code_root_dir               = /qfs/people/shpu881/E3SM/
-set e3sm_simulations_dir        = /compyfs/shpu881/E3SM_simulations/alpha5_59_v2candidate_NGD_Conv
+set code_root_dir               = /global/cscratch1/sd/USER/E3SM_code/   # user modify
+set e3sm_simulations_dir        = /global/cscratch1/sd/USER/E3SM_simulation   # user modify
 set case_build_dir              = ${e3sm_simulations_dir}/${case_name}/build
 set case_run_dir                = ${e3sm_simulations_dir}/${case_name}/run
 set short_term_archive_root_dir = ${e3sm_simulations_dir}/${case_name}/archive
@@ -66,7 +66,7 @@ set short_term_archive_root_dir = ${e3sm_simulations_dir}/${case_name}/archive
 #set num_resubmits    = 0
 
 set stop_units       = nyears
-set stop_num         = 2
+set stop_num         = 1
 set restart_units    = nmonths
 set restart_num      = 3
 set num_resubmits    = 0
@@ -903,7 +903,7 @@ if ( `lowercase $debug_queue` == true ) then
   if ( $machine == quartz || $machine == syrah ) then
     $xmlchange_exe --id JOB_QUEUE --val 'pdebug'
   else if ($machine != sandiatoss3 && $machine != bebop && $machine != blues) then
-    $xmlchange_exe --id JOB_QUEUE --val 'short'
+    $xmlchange_exe --id JOB_QUEUE --val 'debug'
   endif
 endif
 
@@ -1108,7 +1108,7 @@ EOF
 cat >> user_nl_elm <<EOF
 
  check_finidat_year_consistency = .true.
- finidat = '/compyfs/linw288/inputdata/20201103.IELM.r05_oECv3.elm.r.0030-01-01-00000.nc'
+ finidat = '/global/cfs/cdirs/e3sm/shpundk/elm_inputdata/20201103.IELM.r05_oECv3.elm.r.0030-01-01-00000.nc'
 
 EOF
 
